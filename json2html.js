@@ -1,12 +1,31 @@
-export default function json2html(data) {
+
+export function json2html(data) {
+
     let table = '<table data-user="itssiddharthyadav01@gmail.com">';
-    table += '<thead><tr><th>Name</th><th>Age</th><th>Gender</th></tr></thead>';
-    table += '<tbody>';
     
-    data.forEach(item => {
-        table += `<tr><td>${item.Name}</td><td>${item.Age}</td><td>${item.Gender}</td></tr>`;
+
+    table += '<thead><tr>';
+
+    const headers = Object.keys(data.reduce((acc, curr) => ({ ...acc, ...curr }), {}));
+    headers.forEach(header => {
+      table += `<th>${header}</th>`;
     });
+    table += '</tr></thead>';
     
-    table += '</tbody></table>';
+
+    table += '<tbody>';
+    data.forEach(row => {
+      table += '<tr>';
+      headers.forEach(header => {
+        table += `<td>${row[header] || ''}</td>`; 
+      });
+      table += '</tr>';
+    });
+    table += '</tbody>';
+    
+
+    table += '</table>';
+    
     return table;
-}
+  }
+  
